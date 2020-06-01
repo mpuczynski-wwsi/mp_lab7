@@ -1,26 +1,29 @@
 #include <stdio.h>
 #include <iostream>
 #include <iomanip>
-#include "Endomondo.cpp"
+#include <math.h>
+#include "Bryla.cpp"
+#include "Szescian.cpp"
+#include "Ostroslup.cpp"
+#include "Walec.cpp"
+#include "Kula.cpp"
+#include "Graniastoslup.cpp"
 
 using namespace std;
 
 /**
 
-Utwórz program realizujący funkcje wyznaczania teoretycznego czasu przebycia wyznaczonej trasy wiedząc, 
-że sposób pokonywania trasy ma wpływ na prędkość poruszania (c (chód) - 4 km/h, r (rower) - 9 km/h, s (samochód) - 65 km/h)
-W ramach realizacji zadania utwórz klasę a w niej:
-     * pole S (długość tracy)
-     * pole t (czas przebycia trasy)
-     * pole r (forma przebycia trasy (c,r,s))
-     * odpowiednie metody dostępowe do pól klasy
-     * konstruktor jednoargumentowy, którego argumentem jest długość pokonywanej trasy, zaś sposób jej pokonywania ustalony jest na c -chód
-     * konstruktor dwyargumentowy, którego argumentem jest długość pokonywanej trasy oraz sposób jej pokonywania
-     * metoda wyliczająca czas pokonania trasy
+Menu
+        1. Sześcian
+        2. Ostrosłup o podstawie kwadratu
+        3. Walec
+        4. Kula
+        5. Graniastosłup prawidłowy o podstawie trójkąta
 
-Uwaga: dla ułatwienia przyjmujemy, że tracę pokonujemy ze stałą prędkością określoną przez wybrany sposób pokonywania trasy
-
- t = v / s
+W ramach realizacji zadania utwórz:
+      * klasę abstrakcyjną "Bryła" zawierająca metody wirtualne "Objetosc" i "PCalkowite"
+      * klasy specjalistyczne dziedziczące po klasie "Bryla" zawierające definicje odpowiednich pól jak i implementacje metod odziedziczonych, 
+      a także ewentualne inne metody (metody dostępowe do pól, metody wyliczające pole powierzchni boku i podstawy jeżeli ich definicja jest uzasadniona)
 */
 
 void menu();
@@ -31,45 +34,72 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
+void menu()
+{
+  int wybor;
+  double a, h;
+  Bryla *b;
 
-void menu(){
-  char wybor, r;
-  double s;
-
-
-  do {
-    cout <<  endl;
+  do
+  {
+    cout << endl;
     cout << "MENU: " << endl;
-    cout << "Program realizujący funkcje wyznaczania teoretycznego czasu przebycia wyznaczonej trasy okreslonym ponizej pojazdem:" << endl;
-    cout << "(c) chod" << endl;
-    cout << "(r) rower" << endl;
-    cout << "(s) samochod" << endl;
-    cout << "(q) Wyjdz" << endl;
-    cout <<  endl;
+    cout << "Obliczanie pola calkowitego i objetosci nastepujacych figur:" << endl;
+    cout << "(1) Szescian" << endl;
+    cout << "(2) Ostroslup o podstawie kwadratu" << endl;
+    cout << "(3) Walec" << endl;
+    cout << "(4) Kula" << endl;
+    cout << "(5) Graniastoslup prawidlowy o podstawie trojkata" << endl;
+    cout << "(0) Wyjdz" << endl;
+    cout << endl;
     cin >> wybor;
 
-
-
-    if (wybor == 'c'){
-        cout << "wprowadz wartosc drogi (s) w km: " << endl;
-        cin >> s;
-        Endomondo *e =  new Endomondo(s);
-        cout << setprecision(2) << "Uzytkownik przebyl droge s = " << s << " w czasie t = " << e->licz() << " h idac pieszo." << endl;
-        delete e;
-    } else if (wybor == 'r'){
-        cout << "wprowadz wartosc drogi (s) w km: " << endl;
-        cin >> s;
-        r = 'r';
-        Endomondo *e =  new Endomondo(s, r);
-        cout << setprecision(2)  << "Uzytkownik przebyl droge s = " << s << " w czasie t = " << e->licz() << " h jadac rowerem." << endl;
-        delete e;
-    } else if (wybor == 's'){
-        cout << "wprowadz wartosc drogi (s) w km: " << endl;
-        cin >> s;
-        r = 's';
-        Endomondo *e =  new Endomondo(s, r);
-        cout << setprecision(2)  << "Uzytkownik przebyl droge s = " << s << " w czasie t = " << e->licz() << " h jadac samochodem." << endl;
-        delete e;
-    } 
-  } while (wybor != 'q');
+    switch (wybor)
+    {
+    case 1:
+      cout << "Podaj dlugosc boku (a): ";
+      cin >> a;
+      cout << endl;
+      b = new Szescian(a);
+      cout << "PCalkowite szescianu: " << b->PCalkowite() << "cm2 , objetosc = " << b->Objetosc() << " cm3 " << endl;
+      break;
+    case 2:
+      cout << "Podaj dlugosc boku podstawy (a): ";
+      cin >> a;
+      cout << endl;
+      cout << "Podaj wysokosc ostroslupa (H): ";
+      cin >> h;
+      cout << endl;
+      b = new Ostroslup(a, h);
+      cout << "PCalkowite ostroslupa: " << b->PCalkowite() << "cm2 , objetosc = " << b->Objetosc() << " cm3 " << endl;
+      break;
+    case 3:
+      cout << "Podaj dlugosc promienia podstawy (r): ";
+      cin >> a;
+      cout << endl;
+      cout << "Podaj wysokosc walca (H): ";
+      cin >> h;
+      cout << endl;
+      b = new Walec(a, h);
+      cout << "PCalkowite walaca: " << b->PCalkowite() << "cm2 , objetosc = " << b->Objetosc() << " cm3 " << endl;
+      break;
+    case 4:
+            cout << "Podaj dlugosc promienia kuli (R): ";
+      cin >> a;
+      cout << endl;
+      b = new Kula(a);
+      cout << "PCalkowite kuli: " << b->PCalkowite() << "cm2 , objetosc = " << b->Objetosc() << " cm3 " << endl;
+      break;
+    case 5:
+      cout << "Podaj dlugosc boku podstawy (a): ";
+      cin >> a;
+      cout << endl;
+      cout << "Podaj wysokosc graniastoslupa (H): ";
+      cin >> h;
+      cout << endl;
+      b = new Graniastoslup(a, h);
+      cout << "PCalkowite graniastoslupa: " << b->PCalkowite() << "cm2 , objetosc = " << b->Objetosc() << " cm3 " << endl;
+      break;
+    }
+  } while (wybor != 0);
 }
